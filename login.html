@@ -34,8 +34,6 @@
       </div>
     </div>
     <script src="js/vue.js"></script>
-    <script src="js/sha1.min.js"></script>
-    <script src="js/config.js"></script>
     <script>
       const app = new Vue({
         el: '#layout',
@@ -49,7 +47,7 @@
           onLogin: function () {
             fetch('http://127.0.0.1:8080/api' + '/login', {
               method: 'POST',
-              body: JSON.stringify({"username": this.login.username, "password": hex_sha1(this.login.password)})
+              body: JSON.stringify({"username": this.login.username, "password": this.login.password})
             })
               .then(response => response.json())
               .then(data => {
