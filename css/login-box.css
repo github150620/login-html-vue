@@ -1,0 +1,11 @@
+.login-box table {
+  margin: 5em auto;
+  border: 1px solid #aaa;
+  border-collapse: separate;
+  border-spacing: 0.8em;
+}
+
+.login-box label,
+.login-box input {
+  padding: 0.5em;
+}
