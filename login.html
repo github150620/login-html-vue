@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="css/login-box.css">
+  </head>
+  <body>
+    <div id="layout">
+      <div class="login-box">
+        <table>
+          <tr>
+            <td>
+              <label>用户名</label>
+            </td>
+            <td><input v-model="login.username" type="text" placeholder="请输入用户名"></td>
+          </tr>
+          <tr>
+            <td>
+              <label>密码</label>
+            </td>
+            <td><input v-model.text="login.password" type="password" placeholder="请输入密码"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button class="pure-button pure-button-primary" @click="onLogin()">登录</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/sha1.min.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+      const app = new Vue({
+        el: '#layout',
+        data: {
+          login: {
+            username: '',
+            password: ''
+          }
+        },
+        methods: {
+          onLogin: function () {
+            fetch('http://127.0.0.1:8080/api' + '/login', {
+              method: 'POST',
+              body: JSON.stringify({"username": this.login.username, "password": hex_sha1(this.login.password)})
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data)
+                if (data.token) {
+                  sessionStorage.setItem("token", data.token)
+                  window.location.href="dashboard.html"
+                } else {
+                  alert('用户名密码错误，请重新输入。')
+                }
+              })
+              .catch(err => alert(err))
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
